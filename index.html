@@ -1,0 +1,1804 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>上海恒猫机电 - 专业机电设备解决方案提供商</title>
+    <!-- 引入Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- 引入Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+    <!-- 配置Tailwind自定义颜色和字体 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0F52BA', // 深蓝色作为主色调
+                        secondary: '#32CD32', // 绿色作为辅助色
+                        accent: '#FF6B35', // 橙色作为强调色
+                        dark: '#2C3E50',
+                        light: '#F8F9FA'
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            }
+            .carousel-item {
+                display: none;
+                animation: fadeIn 0.8s ease-in-out;
+            }
+            .carousel-item.active {
+                display: block;
+            }
+            .hover-scale {
+                @apply hover:scale-105 transition-all duration-300;
+            }
+            .card-shadow {
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            }
+            .modal-backdrop {
+                backdrop-filter: blur(4px);
+            }
+            .product-card-hover {
+                @apply hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1;
+            }
+            .form-message {
+                @apply mt-2 text-sm hidden;
+            }
+            .form-success {
+                @apply text-green-600;
+            }
+            .form-error {
+                @apply text-red-600;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body class="font-inter text-dark bg-light antialiased">
+    <!-- 导航栏 -->
+    <header id="navbar" class="fixed w-full top-0 z-50 transition-all duration-300 bg-white/90 backdrop-blur-sm shadow-sm">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <!-- Logo - 公司名位于左侧 -->
+                <a href="#" class="flex items-center space-x-2">
+                    <div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
+                        <span class="text-white font-bold text-xl">H</span>
+                    </div>
+                    <span class="text-xl font-bold text-dark lang-company-name">上海恒猫机电</span>
+                </a>
+                
+                <!-- 桌面导航 -->
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="text-dark hover:text-primary transition-colors font-medium lang-home">首页</a>
+                    <a href="#about" class="text-dark hover:text-primary transition-colors font-medium lang-about">关于我们</a>
+                    <a href="#products" class="text-dark hover:text-primary transition-colors font-medium lang-products">产品中心</a>
+                    <a href="#contact" class="text-dark hover:text-primary transition-colors font-medium lang-contact">联系我们</a>
+                </nav>
+                
+                <!-- 语言切换按钮 -->
+                <div class="hidden md:flex items-center mr-4">
+                    <button id="lang-zh" class="px-3 py-1.5 bg-primary text-white rounded-l-lg hover:bg-primary/90 transition-colors">中文</button>
+                    <button id="lang-en" class="px-3 py-1.5 bg-gray-200 text-gray-700 rounded-r-lg hover:bg-gray-300 transition-colors">English</button>
+                </div>
+                
+                <!-- 联系按钮 -->
+                <a href="#contact" class="hidden md:inline-flex items-center px-5 py-2.5 bg-primary text-white rounded-lg hover:bg-primary/90 transition-all shadow-md hover:shadow-lg">
+                    <span class="lang-consult">咨询报价</span>
+                    <i class="fa fa-arrow-right ml-2"></i>
+                </a>
+                
+                <!-- 移动端菜单按钮 -->
+                <button id="menu-toggle" class="md:hidden text-dark hover:text-primary transition-colors">
+                    <i class="fa fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- 移动端导航菜单 -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white border-t border-gray-100 shadow-lg">
+            <!-- 移动端语言切换 -->
+            <div class="px-4 py-3 border-b border-gray-100">
+                <div class="flex">
+                    <button id="mobile-lang-zh" class="flex-1 py-2 bg-primary text-white rounded-l-lg hover:bg-primary/90 transition-colors">中文</button>
+                    <button id="mobile-lang-en" class="flex-1 py-2 bg-gray-200 text-gray-700 rounded-r-lg hover:bg-gray-300 transition-colors">English</button>
+                </div>
+            </div>
+            
+            <div class="container mx-auto px-4 py-3 space-y-3">
+                <a href="#home" class="block py-2 text-dark hover:text-primary transition-colors font-medium lang-home">首页</a>
+                <a href="#about" class="block py-2 text-dark hover:text-primary transition-colors font-medium lang-about">关于我们</a>
+                <a href="#products" class="block py-2 text-dark hover:text-primary transition-colors font-medium lang-products">产品中心</a>
+                <a href="#contact" class="block py-2 text-dark hover:text-primary transition-colors font-medium lang-contact">联系我们</a>
+                <a href="#contact" class="inline-flex items-center px-5 py-2.5 bg-primary text-white rounded-lg hover:bg-primary/90 transition-all shadow-md hover:shadow-lg">
+                    <span class="lang-consult">咨询报价</span>
+                    <i class="fa fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- 英雄区域 - 多张大图轮播 -->
+        <section id="home" class="relative pt-16 overflow-hidden">
+            <div class="carousel-container h-[80vh] min-h-[600px] relative">
+                <!-- 轮播图1 -->
+                <div class="carousel-item active h-full">
+                    <div class="absolute inset-0 bg-black/30 z-10"></div>
+                    <img src="https://picsum.photos/id/96/1600/900" alt="精密机电设备展示" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 z-20 flex items-center">
+                        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                            <div class="max-w-2xl">
+                                <h1 class="text-[clamp(2rem,5vw,3.5rem)] font-bold leading-tight text-white mb-6 text-shadow">
+                                    <span class="lang-hero-title-1">上海恒猫机电，<br>精密机电解决方案</span>
+                                </h1>
+                                <p class="text-lg text-white/90 mb-8 text-shadow lang-hero-desc-1">
+                                    专注于机电设备研发、生产与销售，为工业制造、自动化领域提供高品质产品与专业技术支持。
+                                </p>
+                                <div class="flex flex-col sm:flex-row gap-4">
+                                    <a href="#products" class="px-8 py-3.5 bg-primary text-white rounded-lg hover:bg-primary/90 transition-all shadow-lg hover:shadow-xl text-center font-medium lang-view-products">
+                                        查看产品
+                                    </a>
+                                    <a href="#contact" class="px-8 py-3.5 bg-white/20 backdrop-blur-sm text-white border border-white/40 rounded-lg hover:bg-white/30 transition-all shadow-md hover:shadow-lg text-center font-medium lang-consult-cooperation">
+                                        咨询合作
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 轮播图2 -->
+                <div class="carousel-item h-full">
+                    <div class="absolute inset-0 bg-black/30 z-10"></div>
+                    <img src="https://picsum.photos/id/28/1600/900" alt="恒猫机电生产车间" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 z-20 flex items-center">
+                        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                            <div class="max-w-2xl">
+                                <h1 class="text-[clamp(2rem,5vw,3.5rem)] font-bold leading-tight text-white mb-6 text-shadow">
+                                    <span class="lang-hero-title-2">先进制造工艺，卓越品质保证</span>
+                                </h1>
+                                <p class="text-lg text-white/90 mb-8 text-shadow lang-hero-desc-2">
+                                    拥有现代化生产基地和先进制造设备，严格质量控制体系，为客户提供可靠的机电产品。
+                                </p>
+                                <div class="flex flex-col sm:flex-row gap-4">
+                                    <a href="#about" class="px-8 py-3.5 bg-primary text-white rounded-lg hover:bg-primary/90 transition-all shadow-lg hover:shadow-xl text-center font-medium lang-about-us">
+                                        了解我们
+                                    </a>
+                                    <a href="#contact" class="px-8 py-3.5 bg-white/20 backdrop-blur-sm text-white border border-white/40 rounded-lg hover:bg-white/30 transition-all shadow-md hover:shadow-lg text-center font-medium lang-success-cases">
+                                        联系我们
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 轮播图3 -->
+                <div class="carousel-item h-full">
+                    <div class="absolute inset-0 bg-black/30 z-10"></div>
+                    <img src="https://picsum.photos/id/26/1600/900" alt="自动化生产线" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 z-20 flex items-center">
+                        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                            <div class="max-w-2xl">
+                                <h1 class="text-[clamp(2rem,5vw,3.5rem)] font-bold leading-tight text-white mb-6 text-shadow">
+                                    <span class="lang-hero-title-3">上海恒猫机电有限公司</span>
+                                </h1>
+                                <p class="text-lg text-white/90 mb-8 text-shadow lang-hero-desc-3">
+                                    为各行业提供定制化自动化解决方案，帮助客户实现生产流程优化，降低成本，提高竞争力。
+                                </p>
+                                <div class="flex flex-col sm:flex-row gap-4">
+                                    <a href="#products" class="px-8 py-3.5 bg-primary text-white rounded-lg hover:bg-primary/90 transition-all shadow-lg hover:shadow-xl text-center font-medium lang-our-products">
+                                        我们的产品
+                                    </a>
+                                    <a href="#contact" class="px-8 py-3.5 bg-white/20 backdrop-blur-sm text-white border border-white/40 rounded-lg hover:bg-white/30 transition-all shadow-md hover:shadow-lg text-center font-medium lang-consult-now">
+                                        立即咨询
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 轮播控制按钮 -->
+                <button class="carousel-control absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm text-white flex items-center justify-center z-30 hover:bg-white/30 transition-colors" data-action="prev">
+                    <i class="fa fa-chevron-left text-xl"></i>
+                </button>
+                <button class="carousel-control absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm text-white flex items-center justify-center z-30 hover:bg-white/30 transition-colors" data-action="next">
+                    <i class="fa fa-chevron-right text-xl"></i>
+                </button>
+                
+                <!-- 轮播指示器 -->
+                <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-30">
+                    <button class="carousel-indicator w-3 h-3 rounded-full bg-white/50 hover:bg-white transition-colors active" data-index="0"></button>
+                    <button class="carousel-indicator w-3 h-3 rounded-full bg-white/50 hover:bg-white transition-colors" data-index="1"></button>
+                    <button class="carousel-indicator w-3 h-3 rounded-full bg-white/50 hover:bg-white transition-colors" data-index="2"></button>
+                </div>
+            </div>
+            
+            <!-- 合作伙伴 -->
+            <div class="py-12 bg-white">
+                <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                    <p class="text-center text-gray-500 mb-8 lang-partners">行业合作伙伴</p>
+                    <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-70">
+                        <div class="text-gray-400 font-bold text-xl">宝钢集团</div>
+                        <div class="text-gray-400 font-bold text-xl">上海汽车</div>
+                        <div class="text-gray-400 font-bold text-xl">三一重工</div>
+                        <div class="text-gray-400 font-bold text-xl">中车集团</div>
+                        <div class="text-gray-400 font-bold text-xl">海尔集团</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 关于我们 -->
+        <section id="about" class="py-20 bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <span class="text-primary font-medium lang-about">关于我们</span>
+                    <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold mt-2 mb-4 lang-about-title">上海恒猫机电，精益求精</h2>
+                    <p class="text-gray-600 lang-about-desc">专注机电行业十余年，致力于为客户提供高品质的机电设备和专业的技术解决方案。</p>
+                </div>
+                
+                <div class="flex flex-col lg:flex-row items-center gap-12">
+                    <div class="lg:w-1/2 relative">
+                        <div class="relative z-10 rounded-2xl overflow-hidden shadow-xl">
+                            <img src="https://picsum.photos/id/28/600/400" alt="恒猫机电车间" class="w-full h-auto">
+                        </div>
+                        <!-- 装饰元素 -->
+                        <div class="absolute -top-6 -right-6 w-32 h-32 bg-primary/10 rounded-full"></div>
+                        <div class="absolute -bottom-6 -left-6 w-32 h-32 bg-secondary/10 rounded-full"></div>
+                        <!-- 经验卡片 -->
+                        <div class="absolute bottom-8 -left-10 md:left-auto md:-right-5 bg-white p-6 rounded-xl shadow-xl card-shadow hidden md:block">
+                            <p class="text-3xl font-bold text-primary">12+</p>
+                            <p class="text-gray-600 lang-years-experience">行业经验</p>
+                        </div>
+                    </div>
+                    
+                    <div class="lg:w-1/2">
+                        <h3 class="text-2xl font-bold mb-4 lang-company-profile">公司简介</h3>
+                        <p class="text-gray-600 mb-6 lang-company-desc">上海恒猫机电设备有限公司成立于2011年，是一家集研发、生产、销售为一体的专业机电设备企业。公司拥有先进的生产设备和专业的技术团队，产品广泛应用于机械制造、自动化生产线、汽车工业、物流仓储等领域。</p>
+                        
+                        <div class="space-y-6 mb-8">
+                            <div class="flex gap-4">
+                                <div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary flex-shrink-0">
+                                    <i class="fa fa-certificate text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-xl font-bold mb-2 lang-quality-assurance">品质保证</h4>
+                                    <p class="text-gray-600 lang-quality-desc">严格的质量控制体系，通过ISO9001质量管理体系认证，确保每一台设备符合高标准要求。</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex gap-4">
+                                <div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary flex-shrink-0">
+                                    <i class="fa fa-lightbulb-o text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-xl font-bold mb-2 lang-technical-innovation">技术创新</h4>
+                                    <p class="text-gray-600 lang-innovation-desc">拥有专业的研发团队，持续投入技术创新，不断提升产品性能和技术含量。</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex gap-4">
+                                <div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary flex-shrink-0">
+                                    <i class="fa fa-headphones text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-xl font-bold mb-2 lang-comprehensive-service">完善服务</h4>
+                                    <p class="text-gray-600 lang-service-desc">提供售前咨询、售中指导和售后维护的全方位服务，让客户无后顾之忧。</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <a href="#contact" class="inline-flex items-center px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-all shadow-md hover:shadow-lg">
+                            <span class="lang-contact-us">联系我们</span>
+                            <i class="fa fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- 数据统计 -->
+                <div class="mt-20 grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <div class="bg-gray-50 p-6 rounded-xl text-center hover-scale">
+                        <p class="text-4xl font-bold text-primary mb-2">12+</p>
+                        <p class="text-gray-600 lang-years-experience">行业经验</p>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-xl text-center hover-scale">
+                        <p class="text-4xl font-bold text-primary mb-2">500+</p>
+                        <p class="text-gray-600 lang-cooperative-clients">合作客户</p>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-xl text-center hover-scale">
+                        <p class="text-4xl font-bold text-primary mb-2">50+</p>
+                        <p class="text-gray-600 lang-product-series">产品系列</p>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-xl text-center hover-scale">
+                        <p class="text-4xl font-bold text-primary mb-2">98%</p>
+                        <p class="text-gray-600 lang-customer-satisfaction">客户满意度</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 产品中心 -->
+        <section id="products" class="py-20 bg-gray-50">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <span class="text-primary font-medium lang-products">产品中心</span>
+                    <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold mt-2 mb-4 lang-products-title">优质机电产品系列</h2>
+                    <p class="text-gray-600 lang-products-desc">我们提供各类高品质机电设备，满足不同行业的多样化需求，以卓越性能赢得客户信赖。</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- 产品卡片1 -->
+                    <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all group product-card-hover cursor-pointer product-card" data-product="1">
+                        <div class="relative overflow-hidden">
+                            <img src="https://picsum.photos/id/119/600/400" alt="精密减速电机" class="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-110">
+                            <div class="absolute top-4 right-4 bg-primary text-white text-sm font-medium px-3 py-1 rounded-full lang-hot">
+                                热销
+                            </div>
+                            <div class="absolute inset-0 bg-primary/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                <button class="bg-white text-primary px-4 py-2 rounded-lg font-medium transform translate-y-4 group-hover:translate-y-0 transition-transform">
+                                    <i class="fa fa-play-circle mr-2"></i>
+                                    <span class="lang-view-details">查看详情</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2 product-name">精密减速电机</h3>
+                            <p class="text-gray-600 mb-4 product-desc">高精度齿轮减速电机，噪音低、扭矩大、运行平稳，适用于自动化生产线。</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-primary font-bold text-xl product-price">¥2,800</span>
+                                <button class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors product-view-btn" data-product="1">
+                                    <span class="lang-inquire">咨询购买</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 产品卡片2 -->
+                    <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all group product-card-hover cursor-pointer product-card" data-product="2">
+                        <div class="relative overflow-hidden">
+                            <img src="https://picsum.photos/id/160/600/400" alt="伺服控制系统" class="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-110">
+                            <div class="absolute top-4 right-4 bg-accent text-white text-sm font-medium px-3 py-1 rounded-full lang-new">
+                                新品
+                            </div>
+                            <div class="absolute inset-0 bg-primary/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                <button class="bg-white text-primary px-4 py-2 rounded-lg font-medium transform translate-y-4 group-hover:translate-y-0 transition-transform">
+                                    <i class="fa fa-play-circle mr-2"></i>
+                                    <span class="lang-view-details">查看详情</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2 product-name">伺服控制系统</h3>
+                            <p class="text-gray-600 mb-4 product-desc">高性能伺服电机与控制器组合，响应速度快，定位精准，适用于精密控制领域。</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-primary font-bold text-xl product-price">¥8,600</span>
+                                <button class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors product-view-btn" data-product="2">
+                                    <span class="lang-inquire">咨询购买</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 产品卡片3 -->
+                    <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all group product-card-hover cursor-pointer product-card" data-product="3">
+                        <div class="relative overflow-hidden">
+                            <img src="https://picsum.photos/id/180/600/400" alt="工业传感器" class="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-110">
+                            <div class="absolute inset-0 bg-primary/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                <button class="bg-white text-primary px-4 py-2 rounded-lg font-medium transform translate-y-4 group-hover:translate-y-0 transition-transform">
+                                    <i class="fa fa-play-circle mr-2"></i>
+                                    <span class="lang-view-details">查看详情</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2 product-name">工业传感器</h3>
+                            <p class="text-gray-600 mb-4 product-desc">高精度工业级传感器，适用于位置检测、距离测量、压力监测等多种场景。</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-primary font-bold text-xl product-price">¥1,200</span>
+                                <button class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors product-view-btn" data-product="3">
+                                    <span class="lang-inquire">咨询购买</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 产品卡片4 -->
+                    <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all group product-card-hover cursor-pointer product-card" data-product="4">
+                        <div class="relative overflow-hidden">
+                            <img src="https://picsum.photos/id/177/600/400" alt="变频调速器" class="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-110">
+                            <div class="absolute inset-0 bg-primary/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                <button class="bg-white text-primary px-4 py-2 rounded-lg font-medium transform translate-y-4 group-hover:translate-y-0 transition-transform">
+                                    <i class="fa fa-play-circle mr-2"></i>
+                                    <span class="lang-view-details">查看详情</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2 product-name">变频调速器</h3>
+                            <p class="text-gray-600 mb-4 product-desc">高效节能变频调速装置，精确控制电机转速，广泛应用于各类泵类、风机设备。</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-primary font-bold text-xl product-price">¥3,500</span>
+                                <button class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors product-view-btn" data-product="4">
+                                    <span class="lang-inquire">咨询购买</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 产品卡片5 -->
+                    <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all group product-card-hover cursor-pointer product-card" data-product="5">
+                        <div class="relative overflow-hidden">
+                            <img src="https://picsum.photos/id/111/600/400" alt="行星齿轮箱" class="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-110">
+                            <div class="absolute inset-0 bg-primary/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                <button class="bg-white text-primary px-4 py-2 rounded-lg font-medium transform translate-y-4 group-hover:translate-y-0 transition-transform">
+                                    <i class="fa fa-play-circle mr-2"></i>
+                                    <span class="lang-view-details">查看详情</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2 product-name">行星齿轮箱</h3>
+                            <p class="text-gray-600 mb-4 product-desc">高强度行星齿轮减速箱，承载能力大，传动效率高，适用于重型机械设备。</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-primary font-bold text-xl product-price">¥5,200</span>
+                                <button class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors product-view-btn" data-product="5">
+                                    <span class="lang-inquire">咨询购买</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 产品卡片6 -->
+                    <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all group product-card-hover cursor-pointer product-card" data-product="6">
+                        <div class="relative overflow-hidden">
+                            <img src="https://picsum.photos/id/239/600/400" alt="自动化控制系统" class="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-110">
+                            <div class="absolute top-4 right-4 bg-accent text-white text-sm font-medium px-3 py-1 rounded-full lang-new">
+                                新品
+                            </div>
+                            <div class="absolute inset-0 bg-primary/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                <button class="bg-white text-primary px-4 py-2 rounded-lg font-medium transform translate-y-4 group-hover:translate-y-0 transition-transform">
+                                    <i class="fa fa-play-circle mr-2"></i>
+                                    <span class="lang-view-details">查看详情</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2 product-name">自动化控制系统</h3>
+                            <p class="text-gray-600 mb-4 product-desc">一体化工业自动化解决方案，包含PLC、HMI、SCADA系统，实现智能控制。</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-primary font-bold text-xl product-price">¥12,800</span>
+                                <button class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors product-view-btn" data-product="6">
+                                    <span class="lang-inquire">咨询购买</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-12">
+                    <a href="#contact" class="inline-flex items-center px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-all shadow-md hover:shadow-lg">
+                        <span class="lang-view-all-products">查看全部产品</span>
+                        <i class="fa fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 产品详情模态框 -->
+        <div id="product-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden">
+            <div class="absolute inset-0 bg-black/60 modal-backdrop" id="modal-backdrop"></div>
+            <div class="relative bg-white rounded-xl shadow-2xl w-full max-w-5xl max-h-[90vh] overflow-y-auto">
+                <button id="close-modal" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-200 transition-colors z-10">
+                    <i class="fa fa-times"></i>
+                </button>
+                
+                <div class="p-6 md:p-8">
+                    <div class="flex flex-col md:flex-row gap-8">
+                        <!-- 产品图片和视频 -->
+                        <div class="md:w-1/2">
+                            <div class="rounded-xl overflow-hidden mb-4">
+                                <img id="modal-product-image" src="" alt="产品图片" class="w-full h-auto">
+                            </div>
+                            
+                            <div class="rounded-xl overflow-hidden bg-gray-100 aspect-video flex items-center justify-center">
+                                <video id="modal-product-video" controls poster="" class="w-full h-full object-contain">
+                                    <source src="" type="video/mp4">
+                                    <span class="lang-video-not-supported">您的浏览器不支持视频播放</span>
+                                </video>
+                            </div>
+                        </div>
+                        
+                        <!-- 产品信息 -->
+                        <div class="md:w-1/2">
+                            <span id="modal-product-tag" class="inline-block px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4"></span>
+                            <h2 id="modal-product-name" class="text-2xl md:text-3xl font-bold mb-4"></h2>
+                            <p id="modal-product-price" class="text-2xl font-bold text-primary mb-6"></p>
+                            
+                            <div class="mb-6">
+                                <h3 class="text-lg font-bold mb-3 lang-product-description">产品描述</h3>
+                                <p id="modal-product-desc" class="text-gray-600 mb-4"></p>
+                                
+                                <div class="bg-gray-50 p-4 rounded-lg mb-6">
+                                    <h4 class="font-bold mb-2 lang-product-features">产品特点</h4>
+                                    <ul id="modal-product-features" class="space-y-2 text-gray-600">
+                                        <!-- 动态填充 -->
+                                    </ul>
+                                </div>
+                                
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <h4 class="font-bold mb-2 lang-application-fields">应用领域</h4>
+                                    <ul id="modal-product-applications" class="space-y-2 text-gray-600">
+                                        <!-- 动态填充 -->
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <!-- 购买咨询表单 -->
+                            <div class="bg-gray-50 p-6 rounded-xl">
+                                <h4 class="text-lg font-bold mb-4 lang-purchase-inquiry">购买咨询</h4>
+                                <form id="product-inquiry-form" action="https://formspree.io/f/xjkebyql" method="POST" class="space-y-4">
+                                    <input type="hidden" name="recipient" value="359407366@qq.com">
+                                    <input type="hidden" id="inquired-product-id" name="product_id" value="">
+                                    <input type="hidden" id="inquired-product-name" name="product_name" value="">
+                                    
+                                    <div>
+                                        <label for="inquiry-name" class="block text-gray-700 text-sm font-medium mb-1 lang-name">姓名</label>
+                                        <input type="text" id="inquiry-name" name="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors" placeholder="请输入您的姓名" required>
+                                    </div>
+                                    <div>
+                                        <label for="inquiry-phone" class="block text-gray-700 text-sm font-medium mb-1 lang-phone">电话</label>
+                                        <input type="tel" id="inquiry-phone" name="phone" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors" placeholder="请输入您的电话" required>
+                                    </div>
+                                    <div>
+                                        <label for="inquiry-email" class="block text-gray-700 text-sm font-medium mb-1 lang-email">邮箱</label>
+                                        <input type="email" id="inquiry-email" name="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors" placeholder="请输入您的邮箱" required>
+                                    </div>
+                                    <div>
+                                        <label for="inquiry-msg" class="block text-gray-700 text-sm font-medium mb-1 lang-inquiry-content">咨询内容</label>
+                                        <textarea id="inquiry-msg" name="message" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors resize-none" placeholder="请输入您的咨询内容"></textarea>
+                                    </div>
+                                    
+                                    <div class="form-message form-success lang-form-success hidden">
+                                        咨询已成功提交，我们将尽快与您联系！
+                                    </div>
+                                    <div class="form-message form-error lang-form-error hidden">
+                                        提交失败，请稍后重试。
+                                    </div>
+                                    
+                                    <button type="submit" class="w-full px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-all shadow-md hover:shadow-lg font-medium">
+                                        <span class="lang-submit-inquiry">提交咨询</span>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 联系我们 -->
+        <section id="contact" class="py-20 bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <span class="text-primary font-medium lang-contact">联系我们</span>
+                    <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold mt-2 mb-4 lang-contact-title">与我们取得联系</h2>
+                    <p class="text-gray-600 lang-contact-desc">无论您有任何疑问或需求，都可以通过以下方式联系我们，我们将尽快回复您。</p>
+                </div>
+                
+                <div class="flex flex-col lg:flex-row gap-12">
+                    <div class="lg:w-1/3">
+                        <div class="bg-gray-50 p-8 rounded-xl h-full">
+                            <h3 class="text-2xl font-bold mb-6 lang-contact-info">联系方式</h3>
+                            
+                            <div class="space-y-6">
+                                <div class="flex items-start gap-4">
+                                    <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary flex-shrink-0 mt-1">
+                                        <i class="fa fa-map-marker"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold mb-1 lang-company-address">公司地址</h4>
+                                        <p class="text-gray-600 lang-address">浙江省台州市温岭市大溪镇殿下村</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start gap-4">
+                                    <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary flex-shrink-0 mt-1">
+                                        <i class="fa fa-phone"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold mb-1 lang-phone-number">联系电话</h4>
+                                        <p class="text-gray-600">021-5888-7777</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start gap-4">
+                                    <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary flex-shrink-0 mt-1">
+                                        <i class="fa fa-envelope"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold mb-1 lang-email">电子邮箱</h4>
+                                        <p class="text-gray-600">359407366@qq.com</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start gap-4">
+                                    <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary flex-shrink-0 mt-1">
+                                        <i class="fa fa-clock-o"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold mb-1 lang-working-hours">工作时间</h4>
+                                        <p class="text-gray-600 lang-hours">周一至周日: 8:00 - 17:30</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-8">
+                                <h4 class="font-bold mb-4 lang-follow-us">关注我们</h4>
+                                <div class="flex gap-4">
+                                    <a href="#" class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors">
+                                        <i class="fa fa-weixin"></i>
+                                    </a>
+                                    <a href="#" class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors">
+                                        <i class="fa fa-weibo"></i>
+                                    </a>
+                                    <a href="#" class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors">
+                                        <i class="fa fa-linkedin"></i>
+                                    </a>
+                                    <a href="#" class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors">
+                                        <i class="fa fa-youtube-play"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="lg:w-2/3">
+                        <div class="bg-white border border-gray-100 p-8 rounded-xl shadow-lg">
+                            <h3 class="text-2xl font-bold mb-6 lang-inquiry-form">咨询表单</h3>
+                            
+                            <form id="contact-form" action="https://formspree.io/f/xjkebyql" method="POST" class="space-y-6">
+                                <input type="hidden" name="recipient" value="359407366@qq.com">
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label for="name" class="block text-gray-700 font-medium mb-2 lang-name">姓名</label>
+                                        <input type="text" id="name" name="name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors" placeholder="请输入您的姓名" required>
+                                    </div>
+                                    
+                                    <div>
+                                        <label for="phone" class="block text-gray-700 font-medium mb-2 lang-phone">电话</label>
+                                        <input type="tel" id="phone" name="phone" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors" placeholder="请输入您的电话" required>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <label for="email" class="block text-gray-700 font-medium mb-2 lang-email">邮箱</label>
+                                    <input type="email" id="email" name="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors" placeholder="请输入您的邮箱" required>
+                                </div>
+                                
+                                <div>
+                                    <label for="company" class="block text-gray-700 font-medium mb-2 lang-company">公司名称</label>
+                                    <input type="text" id="company" name="company" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors" placeholder="请输入公司名称">
+                                </div>
+                                
+                                <div>
+                                    <label for="product-interest" class="block text-gray-700 font-medium mb-2 lang-interested-product">感兴趣的产品/服务</label>
+                                    <select id="product-interest" name="product_interest" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors">
+                                        <option value="">请选择...</option>
+                                        <option value="减速电机">精密减速电机</option>
+                                        <option value="伺服系统">伺服控制系统</option>
+                                        <option value="传感器">工业传感器</option>
+                                        <option value="变频器">变频调速器</option>
+                                        <option value="齿轮箱">行星齿轮箱</option>
+                                        <option value="自动化">自动化控制系统</option>
+                                        <option value="service">技术服务</option>
+                                    </select>
+                                </div>
+                                
+                                <div>
+                                    <label for="message" class="block text-gray-700 font-medium mb-2 lang-inquiry-content">咨询内容</label>
+                                    <textarea id="message" name="message" rows="5" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors resize-none" placeholder="请输入您的咨询内容" required></textarea>
+                                </div>
+                                
+                                <div class="form-message form-success lang-form-success hidden">
+                                    咨询已成功提交，我们将尽快与您联系！
+                                </div>
+                                <div class="form-message form-error lang-form-error hidden">
+                                    提交失败，请稍后重试。
+                                </div>
+                                
+                                <button type="submit" class="px-8 py-3.5 bg-primary text-white rounded-lg hover:bg-primary/90 transition-all shadow-md hover:shadow-lg font-medium">
+                                    <span class="lang-submit-inquiry">提交咨询</span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 订阅区域 -->
+        <section class="py-16 bg-primary/10">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-4xl mx-auto text-center">
+                    <h2 class="text-2xl md:text-3xl font-bold mb-4 lang-subscribe-title">订阅产品资讯</h2>
+                    <p class="text-gray-600 mb-8 lang-subscribe-desc">及时获取最新的产品信息、技术动态和行业解决方案</p>
+                    
+                    <form id="subscribe-form" action="https://formspree.io/f/xjkebyql" method="POST" class="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
+                        <input type="hidden" name="recipient" value="359407366@qq.com">
+                        <input type="email" name="email" class="flex-1 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors" placeholder="请输入您的邮箱地址" required>
+                        <input type="hidden" name="subject" value="产品资讯订阅">
+                        <button type="submit" class="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-all shadow-md hover:shadow-lg font-medium whitespace-nowrap">
+                            <span class="lang-subscribe-now">立即订阅</span>
+                        </button>
+                    </form>
+                    <p class="text-sm text-gray-500 mt-4 lang-privacy-policy">我们尊重您的隐私，不会向第三方分享您的信息</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white pt-16 pb-8">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <a href="#" class="flex items-center space-x-2 mb-6">
+                        <div class="w-10 h-10 rounded-lg bg-white flex items-center justify-center">
+                            <span class="text-primary font-bold text-xl">H</span>
+                        </div>
+                        <span class="text-xl font-bold text-white lang-company-name">上海恒猫机电</span>
+                    </a>
+                    <p class="text-gray-400 mb-6 lang-footer-desc">上海恒猫机电设备有限公司是专业的机电设备供应商，致力于为客户提供高品质产品和专业技术服务。</p>
+                    <div class="flex gap-4">
+                        <a href="#" class="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center text-white hover:bg-primary transition-colors">
+                            <i class="fa fa-weixin"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center text-white hover:bg-primary transition-colors">
+                            <i class="fa fa-weibo"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center text-white hover:bg-primary transition-colors">
+                            <i class="fa fa-linkedin"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center text-white hover:bg-primary transition-colors">
+                            <i class="fa fa-youtube-play"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-6 lang-quick-links">快速链接</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#home" class="text-gray-400 hover:text-white transition-colors lang-home">首页</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-white transition-colors lang-about">关于我们</a></li>
+                        <li><a href="#products" class="text-gray-400 hover:text-white transition-colors lang-products">产品中心</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-white transition-colors lang-contact">联系我们</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-6 lang-product-categories">产品系列</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">精密减速电机</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">伺服控制系统</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">工业传感器</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">变频调速器</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">行星齿轮箱</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">自动化控制系统</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-6 lang-contact-info">联系我们</h4>
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-3">
+                            <i class="fa fa-map-marker text-primary mt-1"></i>
+                            <span class="text-gray-400 lang-address">浙江省台州市温岭市大溪镇殿下村</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fa fa-phone text-primary mt-1"></i>
+                            <span class="text-gray-400">021-5888-7777</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fa fa-envelope text-primary mt-1"></i>
+                            <span class="text-gray-400">359407366@qq.com</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fa fa-clock-o text-primary mt-1"></i>
+                            <span class="text-gray-400 lang-hours">周一至周日: 8:00 - 17:30</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/10 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-400 text-sm mb-4 md:mb-0 lang-copyright">© 2023 上海恒猫机电设备有限公司. 保留所有权利.</p>
+                    <div class="flex gap-6">
+                        <a href="#" class="text-gray-400 hover:text-white text-sm transition-colors lang-privacy-policy">隐私政策</a>
+                        <a href="#" class="text-gray-400 hover:text-white text-sm transition-colors lang-terms-of-service">服务条款</a>
+                        <a href="#" class="text-gray-400 hover:text-white text-sm transition-colors lang-sitemap">网站地图</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 返回顶部按钮 -->
+    <button id="back-to-top" class="fixed bottom-8 right-8 w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center shadow-lg hover:bg-primary/90 transition-all opacity-0 invisible">
+        <i class="fa fa-arrow-up"></i>
+    </button>
+
+    <!-- JavaScript -->
+    <script>
+        // 产品数据 - 包含视频信息
+        const productsData = [
+            {
+                id: 1,
+                name: {
+                    zh: "精密减速电机",
+                    en: "Precision Gear Motor"
+                },
+                desc: {
+                    zh: "高精度齿轮减速电机，噪音低、扭矩大、运行平稳，适用于自动化生产线。采用高强度材料制造，具有良好的耐热性和耐磨性，可在各种恶劣环境下稳定工作。",
+                    en: "High-precision gear motor with low noise, high torque and stable operation, suitable for automated production lines. Made of high-strength materials, it has good heat resistance and wear resistance, and can work stably in various harsh environments."
+                },
+                price: {
+                    zh: "¥2,800",
+                    en: "$400"
+                },
+                tag: {
+                    zh: "热销",
+                    en: "Hot Sale"
+                },
+                image: "https://picsum.photos/id/119/600/400",
+                video: "https://storage.googleapis.com/web-dev-assets/video-and-source-tags/chrome.mp4",
+                features: {
+                    zh: [
+                        "高精度齿轮加工，传动效率高达96%",
+                        "低噪音设计，运行噪音≤60dB",
+                        "宽电压范围，适配多种电源环境",
+                        "IP54防护等级，适应复杂工况"
+                    ],
+                    en: [
+                        "High-precision gear processing, transmission efficiency up to 96%",
+                        "Low noise design, operating noise ≤60dB",
+                        "Wide voltage range, suitable for various power environments",
+                        "IP54 protection level, adapting to complex working conditions"
+                    ]
+                },
+                applications: {
+                    zh: [
+                        "自动化生产线",
+                        "物流输送设备",
+                        "包装机械",
+                        "医疗设备"
+                    ],
+                    en: [
+                        "Automated production lines",
+                        "Logistics conveying equipment",
+                        "Packaging machinery",
+                        "Medical equipment"
+                    ]
+                }
+            },
+            {
+                id: 2,
+                name: {
+                    zh: "伺服控制系统",
+                    en: "Servo Control System"
+                },
+                desc: {
+                    zh: "高性能伺服电机与控制器组合，响应速度快，定位精准，适用于精密控制领域。支持多种控制模式，可实现复杂运动轨迹控制，满足高精度自动化需求。",
+                    en: "High-performance servo motor and controller combination with fast response and precise positioning, suitable for precision control fields. Supports multiple control modes, can realize complex motion trajectory control, and meet high-precision automation needs."
+                },
+                price: {
+                    zh: "¥8,600",
+                    en: "$1,200"
+                },
+                tag: {
+                    zh: "新品",
+                    en: "New"
+                },
+                image: "https://picsum.photos/id/160/600/400",
+                video: "https://storage.googleapis.com/web-dev-assets/video-and-source-tags/chrome.mp4",
+                features: {
+                    zh: [
+                        "定位精度可达±0.01mm",
+                        "响应频率高达2kHz",
+                        "支持 EtherCAT 工业总线",
+                        "内置多种运动控制模式"
+                    ],
+                    en: [
+                        "Positioning accuracy up to ±0.01mm",
+                        "Response frequency up to 2kHz",
+                        "Supports EtherCAT industrial bus",
+                        "Built-in multiple motion control modes"
+                    ]
+                },
+                applications: {
+                    zh: [
+                        "数控机床",
+                        "电子加工设备",
+                        "机器人系统",
+                        "精密装配线"
+                    ],
+                    en: [
+                        "CNC machine tools",
+                        "Electronic processing equipment",
+                        "Robot systems",
+                        "Precision assembly lines"
+                    ]
+                }
+            },
+            {
+                id: 3,
+                name: {
+                    zh: "工业传感器",
+                    en: "Industrial Sensors"
+                },
+                desc: {
+                    zh: "高精度工业级传感器，适用于位置检测、距离测量、压力监测等多种场景。采用先进的检测技术，具有高稳定性和可靠性，可在恶劣工业环境中长期工作。",
+                    en: "High-precision industrial-grade sensors, suitable for position detection, distance measurement, pressure monitoring and other scenarios. Using advanced detection technology, it has high stability and reliability, and can work for a long time in harsh industrial environments."
+                },
+                price: {
+                    zh: "¥1,200",
+                    en: "$170"
+                },
+                tag: {
+                    zh: "",
+                    en: ""
+                },
+                image: "https://picsum.photos/id/180/600/400",
+                video: "https://storage.googleapis.com/web-dev-assets/video-and-source-tags/chrome.mp4",
+                features: {
+                    zh: [
+                        "测量精度高达0.1%",
+                        "响应时间小于1ms",
+                        "IP67防护等级，防水防尘",
+                        "宽工作温度范围 -40℃~85℃"
+                    ],
+                    en: [
+                        "Measurement accuracy up to 0.1%",
+                        "Response time less than 1ms",
+                        "IP67 protection rating, waterproof and dustproof",
+                        "Wide operating temperature range -40℃~85℃"
+                    ]
+                },
+                applications: {
+                    zh: [
+                        "自动化生产线",
+                        "智能仓储系统",
+                        "冶金设备",
+                        "工程机械"
+                    ],
+                    en: [
+                        "Automated production lines",
+                        "Intelligent warehousing systems",
+                        "Metallurgical equipment",
+                        "Engineering machinery"
+                    ]
+                }
+            },
+            {
+                id: 4,
+                name: {
+                    zh: "变频调速器",
+                    en: "Frequency Inverter"
+                },
+                desc: {
+                    zh: "高效节能变频调速装置，精确控制电机转速，广泛应用于各类泵类、风机设备。采用先进的矢量控制技术，具有高功率因数和高效率，可显著降低能耗。",
+                    en: "High-efficiency energy-saving frequency conversion speed control device, precisely controls motor speed, widely used in various pumps and fans. Using advanced vector control technology, it has high power factor and high efficiency, which can significantly reduce energy consumption."
+                },
+                price: {
+                    zh: "¥3,500",
+                    en: "$500"
+                },
+                tag: {
+                    zh: "",
+                    en: ""
+                },
+                image: "https://picsum.photos/id/177/600/400",
+                video: "https://storage.googleapis.com/web-dev-assets/video-and-source-tags/chrome.mp4",
+                features: {
+                    zh: [
+                        "调速范围 0.1~600Hz",
+                        "效率高达97%",
+                        "内置PID调节器，方便闭环控制",
+                        "多重保护功能，确保安全运行"
+                    ],
+                    en: [
+                        "Speed range 0.1~600Hz",
+                        "Efficiency up to 97%",
+                        "Built-in PID regulator for easy closed-loop control",
+                        "Multiple protection functions to ensure safe operation"
+                    ]
+                },
+                applications: {
+                    zh: [
+                        "水泵、风机控制",
+                        "中央空调系统",
+                        "纺织机械",
+                        "食品加工设备"
+                    ],
+                    en: [
+                        "Water pump and fan control",
+                        "Central air conditioning systems",
+                        "Textile machinery",
+                        "Food processing equipment"
+                    ]
+                }
+            },
+            {
+                id: 5,
+                name: {
+                    zh: "行星齿轮箱",
+                    en: "Planetary Gearbox"
+                },
+                desc: {
+                    zh: "高强度行星齿轮减速箱，承载能力大，传动效率高，适用于重型机械设备。采用模块化设计，可根据需求组合不同减速比，安装方式灵活多样。",
+                    en: "High-strength planetary gear reducer with large load capacity and high transmission efficiency, suitable for heavy machinery and equipment. Adopting modular design, different reduction ratios can be combined according to requirements, and the installation method is flexible and diverse."
+                },
+                price: {
+                    zh: "¥5,200",
+                    en: "$750"
+                },
+                tag: {
+                    zh: "",
+                    en: ""
+                },
+                image: "https://picsum.photos/id/111/600/400",
+                video: "https://storage.googleapis.com/web-dev-assets/video-and-source-tags/chrome.mp4",
+                features: {
+                    zh: [
+                        "减速比范围 3~1000:1",
+                        "传动效率高达98%",
+                        "输出扭矩可达5000Nm",
+                        "采用高强度合金钢材制造"
+                    ],
+                    en: [
+                        "Reduction ratio range 3~1000:1",
+                        "Transmission efficiency up to 98%",
+                        "Output torque up to 5000Nm",
+                        "Made of high-strength alloy steel"
+                    ]
+                },
+                applications: {
+                    zh: [
+                        "起重机械",
+                        "冶金设备",
+                        "矿山机械",
+                        "船舶推进系统"
+                    ],
+                    en: [
+                        "Hoisting machinery",
+                        "Metallurgical equipment",
+                        "Mining machinery",
+                        "Ship propulsion systems"
+                    ]
+                }
+            },
+            {
+                id: 6,
+                name: {
+                    zh: "自动化控制系统",
+                    en: "Automation Control System"
+                },
+                desc: {
+                    zh: "一体化工业自动化解决方案，包含PLC、HMI、SCADA系统，实现智能控制。支持多种工业总线和通信协议，可与各类设备无缝对接，构建完整的工业物联网系统。",
+                    en: "Integrated industrial automation solution, including PLC, HMI, SCADA systems, to achieve intelligent control. Supports multiple industrial buses and communication protocols, can seamlessly connect with various equipment, and build a complete industrial Internet of Things system."
+                },
+                price: {
+                    zh: "¥12,800",
+                    en: "$1,800"
+                },
+                tag: {
+                    zh: "新品",
+                    en: "New"
+                },
+                image: "https://picsum.photos/id/239/600/400",
+                video: "https://storage.googleapis.com/web-dev-assets/video-and-source-tags/chrome.mp4",
+                features: {
+                    zh: [
+                        "支持多语言操作界面",
+                        "强大的数据采集与分析功能",
+                        "模块化设计，易于扩展",
+                        "支持远程监控与诊断"
+                    ],
+                    en: [
+                        "Supports multi-language operation interface",
+                        "Powerful data collection and analysis functions",
+                        "Modular design, easy to expand",
+                        "Supports remote monitoring and diagnosis"
+                    ]
+                },
+                applications: {
+                    zh: [
+                        "智能工厂",
+                        "化工生产过程",
+                        "水处理系统",
+                        "新能源生产线"
+                    ],
+                    en: [
+                        "Smart factories",
+                        "Chemical production processes",
+                        "Water treatment systems",
+                        "New energy production lines"
+                    ]
+                }
+            }
+        ];
+
+        // 语言切换数据
+        const translations = {
+            // 导航栏
+            "lang-home": { zh: "首页", en: "Home" },
+            "lang-about": { zh: "关于我们", en: "About Us" },
+            "lang-products": { zh: "产品中心", en: "Products" },
+            "lang-contact": { zh: "联系我们", en: "Contact" },
+            "lang-consult": { zh: "咨询报价", en: "Get Quote" },
+            "lang-company-name": { zh: "上海恒猫机电", en: "Shanghai Hengmao Electromechanical" },
+            
+            // 轮播区域
+            "lang-hero-title-1": { zh: "上海恒猫机电，<br>精密机电解决方案", en: "Shanghai Hengmao,<br>Precision Electromechanical Solutions" },
+            "lang-hero-desc-1": { zh: "专注于机电设备研发、生产与销售，为工业制造、自动化领域提供高品质产品与专业技术支持。", en: "Focused on R&D, production and sales of electromechanical equipment, providing high-quality products and professional technical support for industrial manufacturing and automation fields." },
+            "lang-view-products": { zh: "查看产品", en: "View Products" },
+            "lang-consult-cooperation": { zh: "咨询合作", en: "Consult Cooperation" },
+            
+            "lang-hero-title-2": { zh: "先进制造工艺，卓越品质保证", en: "Advanced Manufacturing Process, Excellent Quality Assurance" },
+            "lang-hero-desc-2": { zh: "拥有现代化生产基地和先进制造设备，严格质量控制体系，为客户提供可靠的机电产品。", en: "With modern production bases and advanced manufacturing equipment, strict quality control system, to provide customers with reliable electromechanical products." },
+            "lang-about-us": { zh: "了解我们", en: "About Us" },
+            "lang-success-cases": { zh: "联系我们", en: "Contact Us" },
+            
+            "lang-hero-title-3": { zh: "上海恒猫机电有限公司", en: "Shanghai Hengmao Electromechanical Co., Ltd." },
+            "lang-hero-desc-3": { zh: "为各行业提供定制化自动化解决方案，帮助客户实现生产流程优化，降低成本，提高竞争力。", en: "Provide customized automation solutions for various industries, helping customers optimize production processes, reduce costs and improve competitiveness." },
+            "lang-our-products": { zh: "我们的产品", en: "Our Products" },
+            "lang-consult-now": { zh: "立即咨询", en: "Consult Now" },
+            
+            "lang-partners": { zh: "行业合作伙伴", en: "Industry Partners" },
+            
+            // 关于我们
+            "lang-about-title": { zh: "上海恒猫机电，精益求精", en: "Shanghai Hengmao, Striving for Excellence" },
+            "lang-about-desc": { zh: "专注机电行业十余年，致力于为客户提供高品质的机电设备和专业的技术解决方案。", en: "Focused on the electromechanical industry for more than ten years, committed to providing customers with high-quality electromechanical equipment and professional technical solutions." },
+            "lang-company-profile": { zh: "公司简介", en: "Company Profile" },
+            "lang-company-desc": { zh: "上海恒猫机电设备有限公司成立于2011年，是一家集研发、生产、销售为一体的专业机电设备企业。公司拥有先进的生产设备和专业的技术团队，产品广泛应用于机械制造、自动化生产线、汽车工业、物流仓储等领域。", en: "Shanghai Hengmao Electromechanical Equipment Co., Ltd. was established in 2011, is a professional electromechanical equipment enterprise integrating R&D, production and sales. The company has advanced production equipment and professional technical team, and its products are widely used in machinery manufacturing, automated production lines, automobile industry, logistics and warehousing and other fields." },
+            "lang-quality-assurance": { zh: "品质保证", en: "Quality Assurance" },
+            "lang-quality-desc": { zh: "严格的质量控制体系，通过ISO9001质量管理体系认证，确保每一台设备符合高标准要求。", en: "Strict quality control system, passed ISO9001 quality management system certification, ensuring that each equipment meets high standards." },
+            "lang-technical-innovation": { zh: "技术创新", en: "Technical Innovation" },
+            "lang-innovation-desc": { zh: "拥有专业的研发团队，持续投入技术创新，不断提升产品性能和技术含量。", en: "With a professional R&D team, continuous investment in technological innovation, and continuous improvement of product performance and technical content." },
+            "lang-comprehensive-service": { zh: "完善服务", en: "Comprehensive Service" },
+            "lang-service-desc": { zh: "提供售前咨询、售中指导和售后维护的全方位服务，让客户无后顾之忧。", en: "Provide comprehensive services including pre-sales consultation, in-sales guidance and after-sales maintenance, so that customers have no worries." },
+            "lang-contact-us": { zh: "联系我们", en: "Contact Us" },
+            "lang-years-experience": { zh: "行业经验", en: "Years of Experience" },
+            "lang-cooperative-clients": { zh: "合作客户", en: "Cooperative Clients" },
+            "lang-product-series": { zh: "产品系列", en: "Product Series" },
+            "lang-customer-satisfaction": { zh: "客户满意度", en: "Customer Satisfaction" },
+            
+            // 产品中心
+            "lang-products-title": { zh: "优质机电产品系列", en: "High-quality Electromechanical Products" },
+            "lang-products-desc": { zh: "我们提供各类高品质机电设备，满足不同行业的多样化需求，以卓越性能赢得客户信赖。", en: "We provide various high-quality electromechanical equipment to meet the diverse needs of different industries and win customer trust with excellent performance." },
+            "lang-hot": { zh: "热销", en: "Hot Sale" },
+            "lang-new": { zh: "新品", en: "New" },
+            "lang-view-details": { zh: "查看详情", en: "View Details" },
+            "lang-inquire": { zh: "咨询购买", en: "Inquire" },
+            "lang-view-all-products": { zh: "查看全部产品", en: "View All Products" },
+            
+            // 产品详情模态框
+            "lang-product-description": { zh: "产品描述", en: "Product Description" },
+            "lang-product-features": { zh: "产品特点", en: "Product Features" },
+            "lang-application-fields": { zh: "应用领域", en: "Application Fields" },
+            "lang-inquire-now": { zh: "立即咨询", en: "Inquire Now" },
+            "lang-download-manual": { zh: "下载手册", en: "Download Manual" },
+            "lang-video-not-supported": { zh: "您的浏览器不支持视频播放", en: "Your browser does not support video playback" },
+            "lang-purchase-inquiry": { zh: "购买咨询", en: "Purchase Inquiry" },
+            "lang-form-success": { zh: "咨询已成功提交，我们将尽快与您联系！", en: "Inquiry submitted successfully, we will contact you as soon as possible!" },
+            "lang-form-error": { zh: "提交失败，请稍后重试。", en: "Submission failed, please try again later." },
+            
+            // 联系我们
+            "lang-contact-title": { zh: "与我们取得联系", en: "Get In Touch With Us" },
+            "lang-contact-desc": { zh: "无论您有任何疑问或需求，都可以通过以下方式联系我们，我们将尽快回复您。", en: "No matter you have any questions or needs, you can contact us in the following ways, and we will reply to you as soon as possible." },
+            "lang-contact-info": { zh: "联系方式", en: "Contact Information" },
+            "lang-company-address": { zh: "公司地址", en: "Company Address" },
+            "lang-address": { zh: "浙江省台州市温岭市大溪镇殿下村", en: "Dianxiacun, Daxi Town, Wenling City, Taizhou, Zhejiang Province" },
+            "lang-phone-number": { zh: "联系电话", en: "Phone Number" },
+            "lang-email": { zh: "电子邮箱", en: "Email" },
+            "lang-working-hours": { zh: "工作时间", en: "Working Hours" },
+            "lang-hours": { zh: "周一至周日: 8:00 - 17:30", en: "Monday to Sunday: 8:00 - 17:30" },
+            "lang-follow-us": { zh: "关注我们", en: "Follow Us" },
+            "lang-inquiry-form": { zh: "咨询表单", en: "Inquiry Form" },
+            "lang-name": { zh: "姓名", en: "Name" },
+            "lang-phone": { zh: "电话", en: "Phone" },
+            "lang-company": { zh: "公司名称", en: "Company" },
+            "lang-interested-product": { zh: "感兴趣的产品/服务", en: "Interested Product/Service" },
+            "lang-inquiry-content": { zh: "咨询内容", en: "Inquiry Content" },
+            "lang-submit-inquiry": { zh: "提交咨询", en: "Submit Inquiry" },
+            
+            // 订阅区域
+            "lang-subscribe-title": { zh: "订阅产品资讯", en: "Subscribe to Product News" },
+            "lang-subscribe-desc": { zh: "及时获取最新的产品信息、技术动态和行业解决方案", en: "Get the latest product information, technical developments and industry solutions in a timely manner" },
+            "lang-subscribe-now": { zh: "立即订阅", en: "Subscribe Now" },
+            "lang-privacy-policy": { zh: "隐私政策", en: "Privacy Policy" },
+            
+            // 页脚
+            "lang-footer-desc": { zh: "上海恒猫机电设备有限公司是专业的机电设备供应商，致力于为客户提供高品质产品和专业技术服务。", en: "Shanghai Hengmao Electromechanical Equipment Co., Ltd. is a professional electromechanical equipment supplier, committed to providing customers with high-quality products and professional technical services." },
+            "lang-quick-links": { zh: "快速链接", en: "Quick Links" },
+            "lang-product-categories": { zh: "产品系列", en: "Product Categories" },
+            "lang-copyright": { zh: "© 2023 上海恒猫机电设备有限公司. 保留所有权利.", en: "© 2023 Shanghai Hengmao Electromechanical Equipment Co., Ltd. All rights reserved." },
+            "lang-terms-of-service": { zh: "服务条款", en: "Terms of Service" },
+            "lang-sitemap": { zh: "网站地图", en: "Sitemap" }
+        };
+
+        // 初始化语言切换
+        function initLanguageSwitcher() {
+            const langZh = document.getElementById('lang-zh');
+            const langEn = document.getElementById('lang-en');
+            const mobileLangZh = document.getElementById('mobile-lang-zh');
+            const mobileLangEn = document.getElementById('mobile-lang-en');
+            
+            // 切换到中文
+            function switchToChinese() {
+                langZh.classList.remove('bg-gray-200', 'text-gray-700');
+                langZh.classList.add('bg-primary', 'text-white');
+                langEn.classList.remove('bg-primary', 'text-white');
+                langEn.classList.add('bg-gray-200', 'text-gray-700');
+                
+                mobileLangZh.classList.remove('bg-gray-200', 'text-gray-700');
+                mobileLangZh.classList.add('bg-primary', 'text-white');
+                mobileLangEn.classList.remove('bg-primary', 'text-white');
+                mobileLangEn.classList.add('bg-gray-200', 'text-gray-700');
+                
+                updateLanguage('zh');
+                localStorage.setItem('preferredLanguage', 'zh');
+            }
+            
+            // 切换到英文
+            function switchToEnglish() {
+                langEn.classList.remove('bg-gray-200', 'text-gray-700');
+                langEn.classList.add('bg-primary', 'text-white');
+                langZh.classList.remove('bg-primary', 'text-white');
+                langZh.classList.add('bg-gray-200', 'text-gray-700');
+                
+                mobileLangEn.classList.remove('bg-gray-200', 'text-gray-700');
+                mobileLangEn.classList.add('bg-primary', 'text-white');
+                mobileLangZh.classList.remove('bg-primary', 'text-white');
+                mobileLangZh.classList.add('bg-gray-200', 'text-gray-700');
+                
+                updateLanguage('en');
+                localStorage.setItem('preferredLanguage', 'en');
+            }
+            
+            // 更新页面语言
+            function updateLanguage(lang) {
+                // 更新普通文本
+                Object.keys(translations).forEach(key => {
+                    const elements = document.getElementsByClassName(key);
+                    if (elements.length > 0) {
+                        for (let i = 0; i < elements.length; i++) {
+                            elements[i].innerHTML = translations[key][lang];
+                        }
+                    }
+                });
+                
+                // 更新产品信息
+                document.querySelectorAll('.product-name').forEach((el, index) => {
+                    el.textContent = productsData[index].name[lang];
+                });
+                
+                document.querySelectorAll('.product-desc').forEach((el, index) => {
+                    el.textContent = productsData[index].desc[lang].substring(0, 80) + '...';
+                });
+                
+                document.querySelectorAll('.product-price').forEach((el, index) => {
+                    el.textContent = productsData[index].price[lang];
+                });
+                
+                // 更新占位符
+                const placeholders = document.querySelectorAll('input[placeholder], textarea[placeholder]');
+                placeholders.forEach(input => {
+                    const originalPlaceholder = input.getAttribute('placeholder');
+                    if (lang === 'en') {
+                        switch(originalPlaceholder) {
+                            case '请输入您的姓名':
+                                input.setAttribute('placeholder', 'Please enter your name');
+                                break;
+                            case '请输入您的电话':
+                                input.setAttribute('placeholder', 'Please enter your phone number');
+                                break;
+                            case '请输入公司名称':
+                                input.setAttribute('placeholder', 'Please enter company name');
+                                break;
+                            case '请输入您的咨询内容':
+                                input.setAttribute('placeholder', 'Please enter your inquiry content');
+                                break;
+                            case '请输入您的邮箱地址':
+                                input.setAttribute('placeholder', 'Please enter your email address');
+                                break;
+                        }
+                    } else {
+                        switch(input.getAttribute('placeholder')) {
+                            case 'Please enter your name':
+                                input.setAttribute('placeholder', '请输入您的姓名');
+                                break;
+                            case 'Please enter your phone number':
+                                input.setAttribute('placeholder', '请输入您的电话');
+                                break;
+                            case 'Please enter company name':
+                                input.setAttribute('placeholder', '请输入公司名称');
+                                break;
+                            case 'Please enter your inquiry content':
+                                input.setAttribute('placeholder', '请输入您的咨询内容');
+                                break;
+                            case 'Please enter your email address':
+                                input.setAttribute('placeholder', '请输入您的邮箱地址');
+                                break;
+                        }
+                    }
+                });
+            }
+            
+            // 绑定事件
+            langZh.addEventListener('click', switchToChinese);
+            langEn.addEventListener('click', switchToEnglish);
+            mobileLangZh.addEventListener('click', switchToChinese);
+            mobileLangEn.addEventListener('click', switchToEnglish);
+            
+            // 检查用户偏好语言
+            const savedLang = localStorage.getItem('preferredLanguage');
+            if (savedLang === 'en') {
+                switchToEnglish();
+            } else {
+                switchToChinese();
+            }
+        }
+
+        // 初始化产品模态框 - 包含视频和购买咨询功能
+        function initProductModal() {
+            const productCards = document.querySelectorAll('.product-card');
+            const productViewBtns = document.querySelectorAll('.product-view-btn');
+            const productModal = document.getElementById('product-modal');
+            const closeModal = document.getElementById('close-modal');
+            const modalBackdrop = document.getElementById('modal-backdrop');
+            const productInquiryForm = document.getElementById('product-inquiry-form');
+            const inquiredProductId = document.getElementById('inquired-product-id');
+            const inquiredProductName = document.getElementById('inquired-product-name');
+            
+            // 打开模态框并加载产品数据
+            function openModal(productId) {
+                const product = productsData.find(p => p.id === parseInt(productId));
+                if (!product) return;
+                
+                // 获取当前语言
+                const currentLang = localStorage.getItem('preferredLanguage') || 'zh';
+                
+                // 填充产品数据
+                document.getElementById('modal-product-image').src = product.image;
+                document.getElementById('modal-product-image').alt = product.name[currentLang];
+                document.getElementById('modal-product-video').src = product.video;
+                document.getElementById('modal-product-video').poster = product.image;
+                document.getElementById('modal-product-name').textContent = product.name[currentLang];
+                document.getElementById('modal-product-price').textContent = product.price[currentLang];
+                document.getElementById('modal-product-desc').textContent = product.desc[currentLang];
+                inquiredProductId.value = product.id;
+                inquiredProductName.value = product.name[currentLang];
+                
+                // 重置表单消息
+                productInquiryForm.querySelector('.form-success').classList.add('hidden');
+                productInquiryForm.querySelector('.form-error').classList.add('hidden');
+                
+                // 填充标签
+                const tagElement = document.getElementById('modal-product-tag');
+                if (product.tag[currentLang]) {
+                    tagElement.textContent = product.tag[currentLang];
+                    tagElement.classList.remove('hidden');
+                } else {
+                    tagElement.classList.add('hidden');
+                }
+                
+                // 填充特点
+                const featuresList = document.getElementById('modal-product-features');
+                featuresList.innerHTML = '';
+                product.features[currentLang].forEach(feature => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<i class="fa fa-check text-primary mr-2"></i>${feature}`;
+                    featuresList.appendChild(li);
+                });
+                
+                // 填充应用领域
+                const applicationsList = document.getElementById('modal-product-applications');
+                applicationsList.innerHTML = '';
+                product.applications[currentLang].forEach(application => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<i class="fa fa-industry text-primary mr-2"></i>${application}`;
+                    applicationsList.appendChild(li);
+                });
+                
+                // 显示模态框
+                productModal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+                
+                // 重置视频播放
+                const video = document.getElementById('modal-product-video');
+                video.pause();
+                video.currentTime = 0;
+            }
+            
+            // 关闭模态框
+            function closeModalFunc() {
+                productModal.classList.add('hidden');
+                document.body.style.overflow = '';
+                
+                // 暂停视频
+                document.getElementById('modal-product-video').pause();
+            }
+            
+            // 绑定事件
+            productCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const productId = this.getAttribute('data-product');
+                    openModal(productId);
+                });
+            });
+            
+            productViewBtns.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation(); // 防止事件冒泡到卡片
+                    const productId = this.getAttribute('data-product');
+                    openModal(productId);
+                });
+            });
+            
+            closeModal.addEventListener('click', closeModalFunc);
+            modalBackdrop.addEventListener('click', closeModalFunc);
+            
+            // 按ESC键关闭模态框
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && !productModal.classList.contains('hidden')) {
+                    closeModalFunc();
+                }
+            });
+        }
+
+        // 轮播图功能实现
+        function initCarousel() {
+            const carouselItems = document.querySelectorAll('.carousel-item');
+            const indicators = document.querySelectorAll('.carousel-indicator');
+            const controls = document.querySelectorAll('.carousel-control');
+            let currentIndex = 0;
+            let carouselInterval;
+            
+            // 初始化轮播
+            function startCarousel() {
+                carouselInterval = setInterval(() => {
+                    nextSlide();
+                }, 5000); // 5秒切换一次
+            }
+            
+            // 切换到下一张
+            function nextSlide() {
+                currentIndex = (currentIndex + 1) % carouselItems.length;
+                updateCarousel();
+            }
+            
+            // 切换到上一张
+            function prevSlide() {
+                currentIndex = (currentIndex - 1 + carouselItems.length) % carouselItems.length;
+                updateCarousel();
+            }
+            
+            // 切换到指定索引
+            function goToSlide(index) {
+                currentIndex = index;
+                updateCarousel();
+            }
+            
+            // 更新轮播显示状态
+            function updateCarousel() {
+                // 隐藏所有轮播项
+                carouselItems.forEach(item => {
+                    item.classList.remove('active');
+                });
+                
+                // 重置所有指示器
+                indicators.forEach(indicator => {
+                    indicator.classList.remove('bg-white');
+                    indicator.classList.add('bg-white/50');
+                });
+                
+                // 显示当前轮播项和激活当前指示器
+                carouselItems[currentIndex].classList.add('active');
+                indicators[currentIndex].classList.remove('bg-white/50');
+                indicators[currentIndex].classList.add('bg-white');
+            }
+            
+            // 绑定控制按钮事件
+            controls.forEach(control => {
+                control.addEventListener('click', function() {
+                    clearInterval(carouselInterval);
+                    if (this.getAttribute('data-action') === 'next') {
+                        nextSlide();
+                    } else {
+                        prevSlide();
+                    }
+                    startCarousel();
+                });
+            });
+            
+            // 绑定指示器事件
+            indicators.forEach((indicator, index) => {
+                indicator.addEventListener('click', function() {
+                    clearInterval(carouselInterval);
+                    goToSlide(index);
+                    startCarousel();
+                });
+            });
+            
+            // 鼠标悬停时暂停轮播
+            const carouselContainer = document.querySelector('.carousel-container');
+            carouselContainer.addEventListener('mouseenter', function() {
+                clearInterval(carouselInterval);
+            });
+            
+            // 鼠标离开时恢复轮播
+            carouselContainer.addEventListener('mouseleave', function() {
+                startCarousel();
+            });
+            
+            // 启动轮播
+            startCarousel();
+        }
+
+        // 初始化表单提交功能
+        function initForms() {
+            // 产品咨询表单
+            const productForm = document.getElementById('product-inquiry-form');
+            if (productForm) {
+                productForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const submitButton = this.querySelector('button[type="submit"]');
+                    const originalText = submitButton.innerHTML;
+                    const successMsg = this.querySelector('.form-success');
+                    const errorMsg = this.querySelector('.form-error');
+                    
+                    // 隐藏消息
+                    successMsg.classList.add('hidden');
+                    errorMsg.classList.add('hidden');
+                    
+                    // 禁用按钮并显示加载状态
+                    submitButton.disabled = true;
+                    submitButton.innerHTML = '<i class="fa fa-spinner fa-spin mr-2"></i> ' + (localStorage.getItem('preferredLanguage') === 'en' ? 'Submitting...' : '提交中...');
+                    
+                    // 收集表单数据
+                    const formData = new FormData(this);
+                    
+                    // 发送数据到Formspree
+                    fetch(this.action, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            // 提交成功
+                            successMsg.classList.remove('hidden');
+                            this.reset();
+                        } else {
+                            // 提交失败
+                            errorMsg.classList.remove('hidden');
+                        }
+                    })
+                    .catch(error => {
+                        // 网络错误
+                        errorMsg.classList.remove('hidden');
+                        console.error('提交错误:', error);
+                    })
+                    .finally(() => {
+                        // 恢复按钮状态
+                        submitButton.disabled = false;
+                        submitButton.innerHTML = originalText;
+                    });
+                });
+            }
+            
+            // 联系表单
+            const contactForm = document.getElementById('contact-form');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const submitButton = this.querySelector('button[type="submit"]');
+                    const originalText = submitButton.innerHTML;
+                    const successMsg = this.querySelector('.form-success');
+                    const errorMsg = this.querySelector('.form-error');
+                    
+                    // 隐藏消息
+                    successMsg.classList.add('hidden');
+                    errorMsg.classList.add('hidden');
+                    
+                    // 禁用按钮并显示加载状态
+                    submitButton.disabled = true;
+                    submitButton.innerHTML = '<i class="fa fa-spinner fa-spin mr-2"></i> ' + (localStorage.getItem('preferredLanguage') === 'en' ? 'Submitting...' : '提交中...');
+                    
+                    // 收集表单数据
+                    const formData = new FormData(this);
+                    
+                    // 发送数据到Formspree
+                    fetch(this.action, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            // 提交成功
+                            successMsg.classList.remove('hidden');
+                            this.reset();
+                        } else {
+                            // 提交失败
+                            errorMsg.classList.remove('hidden');
+                        }
+                    })
+                    .catch(error => {
+                        // 网络错误
+                        errorMsg.classList.remove('hidden');
+                        console.error('提交错误:', error);
+                    })
+                    .finally(() => {
+                        // 恢复按钮状态
+                        submitButton.disabled = false;
+                        submitButton.innerHTML = originalText;
+                    });
+                });
+            }
+            
+            // 订阅表单
+            const subscribeForm = document.getElementById('subscribe-form');
+            if (subscribeForm) {
+                subscribeForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const submitButton = this.querySelector('button[type="submit"]');
+                    const originalText = submitButton.innerHTML;
+                    const emailInput = this.querySelector('input[type="email"]');
+                    
+                    // 禁用按钮并显示加载状态
+                    submitButton.disabled = true;
+                    submitButton.innerHTML = '<i class="fa fa-spinner fa-spin mr-2"></i> ' + (localStorage.getItem('preferredLanguage') === 'en' ? 'Subscribing...' : '订阅中...');
+                    
+                    // 收集表单数据
+                    const formData = new FormData(this);
+                    
+                    // 发送数据到Formspree
+                    fetch(this.action, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            // 提交成功
+                            alert(localStorage.getItem('preferredLanguage') === 'en' ? 'Subscription successful! Thank you.' : '订阅成功！感谢您的关注。');
+                            this.reset();
+                        } else {
+                            // 提交失败
+                            alert(localStorage.getItem('preferredLanguage') === 'en' ? 'Subscription failed, please try again later.' : '订阅失败，请稍后重试。');
+                        }
+                    })
+                    .catch(error => {
+                        // 网络错误
+                        alert(localStorage.getItem('preferredLanguage') === 'en' ? 'Network error, please try again later.' : '网络错误，请稍后重试。');
+                        console.error('提交错误:', error);
+                    })
+                    .finally(() => {
+                        // 恢复按钮状态
+                        submitButton.disabled = false;
+                        submitButton.innerHTML = originalText;
+                    });
+                });
+            }
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化轮播
+            initCarousel();
+            
+            // 初始化语言切换
+            initLanguageSwitcher();
+            
+            // 初始化产品模态框 - 带视频和购买功能
+            initProductModal();
+            
+            // 初始化表单提交功能（发送到邮箱）
+            initForms();
+            
+            // 导航栏滚动效果
+            const navbar = document.getElementById('navbar');
+            const backToTop = document.getElementById('back-to-top');
+            
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('py-2', 'shadow-md');
+                    navbar.classList.remove('py-4');
+                    
+                    backToTop.classList.remove('opacity-0', 'invisible');
+                    backToTop.classList.add('opacity-100', 'visible');
+                } else {
+                    navbar.classList.add('py-4');
+                    navbar.classList.remove('py-2', 'shadow-md');
+                    
+                    backToTop.classList.add('opacity-0', 'invisible');
+                    backToTop.classList.remove('opacity-100', 'visible');
+                }
+            });
+            
+            // 移动端菜单切换
+            const menuToggle = document.getElementById('menu-toggle');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            menuToggle.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            // 平滑滚动
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
+                    // 关闭移动端菜单
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // 返回顶部
+            backToTop.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+    
